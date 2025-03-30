@@ -9,7 +9,6 @@ import (
 
 func SetupRoutes(router *gin.Engine) {
 	router.Use(middleware.CORS())
-	router.Use(middleware.AuthMiddleware())
 
 	authGroup := router.Group("/auth")
 	{
@@ -18,7 +17,6 @@ func SetupRoutes(router *gin.Engine) {
 	}
 
 	labGroup := router.Group("/labs")
-	labGroup.Use(middleware.AuthMiddleware())
 	{
 		labGroup.POST("", handlers.LabCreateHandler)                             // Создание лаборатории
 		labGroup.PUT("/:id", handlers.LabUpdateHandler)                          // Обновление лаборатории
@@ -27,5 +25,13 @@ func SetupRoutes(router *gin.Engine) {
 		labGroup.POST("/:id/start", handlers.LabStartHandler)                    // Запуск лаборатории
 		labGroup.POST("/:id/stop", handlers.LabStopHandler)                      // Остановка лаборатории
 		labGroup.POST("/:id/execute-command", handlers.LabExecuteCommandHandler) // Выполнение команды
+	}
+	taskGroup := router.Group("/tasks")
+	{
+		taskGroup.POST("", handlers.TaskCreateHandler)
+		taskGroup.GET("/:id", handlers.TaskGetByIDHandler)
+		taskGroup.GET("", handlers.TaskGetAllHandler)
+		taskGroup.PUT("/:id", handlers.TaskUpdateHandler)
+		taskGroup.DELETE("/:id", handlers.TaskDeleteHandler)
 	}
 }
