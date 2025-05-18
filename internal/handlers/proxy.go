@@ -16,8 +16,12 @@ func ProxyRequest(target, path string, c *gin.Context) {
 	}
 	c.Request.URL.Path = path
 
-	fmt.Println("Proxying request to:", targetURL.String()+c.Request.URL.Path)
+	fmt.Println("Proxying request to:", targetURL.String()+path)
 
 	proxy := httputil.NewSingleHostReverseProxy(targetURL)
+	fmt.Printf("Proxying: %s%s → %s%s\n",
+		c.Request.Host, c.Request.URL.Path,
+		target, path)
+
 	proxy.ServeHTTP(c.Writer, c.Request)
 }

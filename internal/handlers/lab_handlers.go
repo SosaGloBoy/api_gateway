@@ -16,7 +16,7 @@ func LabUpdateHandler(c *gin.Context) {
 }
 
 func LabDeleteHandler(c *gin.Context) {
-	ProxyRequest(labServiceURL, fmt.Sprintf("/labs/%s", c.Param("id")), c)
+	ProxyRequest(labServiceURL, fmt.Sprintf("/labs/%s/delete", c.Param("id")), c)
 }
 
 func LabGetHandler(c *gin.Context) {
@@ -33,4 +33,7 @@ func LabStopHandler(c *gin.Context) {
 
 func LabExecuteCommandHandler(c *gin.Context) {
 	ProxyRequest(labServiceURL, fmt.Sprintf("/labs/%s/execute-command", c.Param("id")), c)
+}
+func LabCommitLabHandler(c *gin.Context) {
+	ProxyRequest(labServiceURL, fmt.Sprintf("/labs/%s/commit", c.Param("id")), c)
 }
